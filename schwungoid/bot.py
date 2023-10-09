@@ -30,4 +30,12 @@ async def on_ready():
     await bot.add_cog(Fun())
     await bot.add_cog(Admin())
 
+@bot.event
+async def on_command_error(ctx, err):
+    if isinstance(err, commands.CheckFailure):
+        # HACK: Fail silently expecting the `check` handler to send an error message.
+        pass
+    else:
+        await ctx.send("Oh no! {}".format(err))
+
 bot.run(TOKEN)

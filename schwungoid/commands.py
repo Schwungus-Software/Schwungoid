@@ -16,12 +16,16 @@ class Fun(commands.Cog):
 class Admin(commands.Cog):
     """Admin"""
 
+    async def cog_check(self, ctx):
+        if ctx.author.guild_permissions.administrator:
+            return True
+        else:
+            await ctx.send("No admin perms, no coochie")
+            return False
+
     @commands.command(brief = "Deletes a specified amount of messages")
     async def purge(self, ctx, amount: int):
         """Purge"""
 
-        if ctx.author.guild_permissions.administrator:
-            messages = await ctx.channel.purge(limit = amount + 1)
-            await ctx.send("Cleared {} messages".format(len(messages)))
-        else:
-            await ctx.send("No admin perms, no coochie")
+        messages = await ctx.channel.purge(limit = amount + 1)
+        await ctx.send("Cleared {} messages".format(len(messages)))

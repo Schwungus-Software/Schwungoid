@@ -4,6 +4,12 @@ import discord
 
 from discord.ext import commands
 
+class Refuse(commands.CommandError):
+    """Raise this if you just want to flip the user off."""
+
+    def __init__(self, reason):
+        self.reason = reason
+
 class Fun(commands.Cog):
     """Fun"""
 
@@ -17,11 +23,10 @@ class Admin(commands.Cog):
     """Admin"""
 
     async def cog_check(self, ctx):
-        if ctx.author.guild_permissions.administrator:
-            return True
-        else:
-            await ctx.send("No admin perms, no coochie")
-            return False
+        if not ctx.author.guild_permissions.administrator:
+            raise Refuse("No admin perms, no coochie")
+
+        return True
 
     @commands.command(brief = "Deletes a specified amount of messages")
     async def purge(self, ctx, amount: int):

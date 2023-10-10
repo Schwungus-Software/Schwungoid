@@ -5,6 +5,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from .commands import Refuse
+
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -32,9 +34,8 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, err):
-    if isinstance(err, commands.CheckFailure):
-        # HACK: Fail silently expecting the `check` handler to send an error message.
-        pass
+    if isinstance(err, Refuse):
+        await ctx.send(err.reason)
     else:
         await ctx.send("Oh no! {}".format(err))
 

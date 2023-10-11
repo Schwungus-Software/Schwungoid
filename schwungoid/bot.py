@@ -37,6 +37,6 @@ async def on_command_error(ctx, err):
     if isinstance(err, Refuse):
         await ctx.send(err.reason)
     else:
-        await ctx.send("Oh no! {}".format(err))
+        await ctx.send(":warning: Oh no! {}".format(err))
 
 bot.run(TOKEN)

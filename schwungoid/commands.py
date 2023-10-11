@@ -1,6 +1,6 @@
 import random
-
 import discord
+import asyncio
 
 from discord.ext import commands
 
@@ -24,13 +24,16 @@ class Admin(commands.Cog):
 
     async def cog_check(self, ctx):
         if not ctx.author.guild_permissions.administrator:
-            raise Refuse("No admin perms, no coochie")
+            raise Refuse(":no_entry_sign: Cannot use admin commands")
 
         return True
 
     @commands.command(brief = "Deletes a specified amount of messages")
     async def purge(self, ctx, amount: int):
         """Purge"""
-
-        messages = await ctx.channel.purge(limit = amount + 1)
-        await ctx.send("Cleared {} messages".format(len(messages)))
+        
+        await ctx.message.delete()
+        
+        messages = await ctx.channel.purge(limit = amount)
+        
+        await ctx.send("Cleared {} messages".format(len(messages)), delete_after = 5.0)

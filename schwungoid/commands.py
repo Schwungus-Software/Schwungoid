@@ -19,21 +19,33 @@ class Fun(commands.Cog):
 
         await ctx.send(random.choice(["Heads!", "Tails!"]))
 
+    @commands.command(brief = "Choose your destiny for you")
+    async def pick(self, ctx, *args):
+        """Pick one of the items enclosed with quotes"""
+
+        if len(args) == 0:
+            raise Refuse("The hell do you want me to pick?")
+        elif len(args) == 1:
+            raise Refuse("One item to pick from... Guess what the outcome is?")
+        else:
+            outcome = random.choice(args)
+            await ctx.send(f"I pick... {outcome}")
+
 class Admin(commands.Cog):
     """Admin"""
 
     async def cog_check(self, ctx):
         if not ctx.author.guild_permissions.administrator:
-            raise Refuse(":no_entry_sign: Cannot use admin commands")
+            raise Refuse("Cannot use admin commands")
 
         return True
 
     @commands.command(brief = "Deletes a specified amount of messages")
     async def purge(self, ctx, amount: int):
         """Purge"""
-        
+
         await ctx.message.delete()
-        
+
         messages = await ctx.channel.purge(limit = amount)
-        
-        await ctx.send("Cleared {} messages".format(len(messages)), delete_after = 5.0)
+
+        await ctx.send(f"Cleared {len(messages)} messages", delete_after = 5.0)

@@ -35,8 +35,8 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, err):
     if isinstance(err, Refuse):
-        await ctx.send(err.reason)
+        await ctx.send(f":no_entry_sign: {err.reason}")
     else:
-        await ctx.send(":warning: Oh no! {}".format(err))
+        await ctx.send(f":warning: Oh no! {err}")
 
 bot.run(TOKEN)

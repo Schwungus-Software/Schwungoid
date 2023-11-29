@@ -28,6 +28,9 @@ bot = commands.Bot(
 
 @bot.event
 async def on_ready():
+    activity = discord.Activity(type=discord.ActivityType.listening, name='+')
+    await bot.change_presence(activity=activity)
+
     from .commands import Fun, Admin
     await bot.add_cog(Fun())
     await bot.add_cog(Admin())

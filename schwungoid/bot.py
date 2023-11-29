@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 
 from .commands import Refuse
 
+PRIMARY_PREFIX = "+"
+
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -21,14 +23,14 @@ intents.message_content = True
 help_command = commands.DefaultHelpCommand(no_category = "General")
 
 bot = commands.Bot(
-    command_prefix = ["+", "¤", "No ", "№ "],
+    command_prefix = [PRIMARY_PREFIX, "¤", "No ", "№ "],
     intents = intents,
     help_command = help_command
 )
 
 @bot.event
 async def on_ready():
-    activity = discord.Activity(type=discord.ActivityType.listening, name='+')
+    activity = discord.Activity(type=discord.ActivityType.listening, name=PRIMARY_PREFIX)
     await bot.change_presence(activity=activity)
 
     from .commands import Fun, Admin
